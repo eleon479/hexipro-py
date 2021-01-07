@@ -1,7 +1,3 @@
-function showMessage(message) {
-    document.getElementById('message').textContent=message
-   
-}
 
 class Tile {
     constructor(location, playerOnTile, valueOnTile /*,isActive*/ ) {
@@ -19,6 +15,9 @@ class Tile {
         this.valueOnTile=newVal
     }
 
+    getLocation () {
+        return this.location
+    }
     /*
     setIsActive (active) {
         //active=true -> tile is in play
@@ -34,4 +33,19 @@ class Tile {
         return this.valueOnTile
     }
 
+    getAttackableTiles() {
+        var loc=this.getLocation()
+        var row=loc[0]
+        var column=loc[1]
+        var rows=12
+        var columns=7
+        var attackableTiles=[]
+
+        //first tile
+        if((row==0) & (column==0)) {
+            attackableTiles[attackableTiles.length]=[row, column-1]
+            attackableTiles[attackableTiles.length]=[row+1, column+1]
+        }
+       return attackableTiles
+    }
 }
