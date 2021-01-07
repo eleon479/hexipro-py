@@ -1,9 +1,27 @@
 class Board {
-    constructor() {
+    constructor(rows, columns) {
         console.log("creating board")
-        this.tiles=this.createTiles(12,7)
+        this.rows=rows
+        this.columns=columns
+        this.tiles=this.createTiles(rows, columns)
         console.log(this.getTile(4,3))
         this.populateTiles()
+    }
+
+    getRows() {
+      return this.rows
+    }
+
+    getColumns() {
+      return this.columns
+    }
+
+    setRows(rows) {
+      this.rows=rows
+    }
+    
+    setColumns(columns) {
+      this.columns=columns
     }
 
     //creates empty default tiles
@@ -13,9 +31,8 @@ class Board {
         var count=0
         var currTile
       for(var i=0; i<columns; i++) {
-          console.log("now on column" + i)
+
         for(var j=0; j<rows; j++) {
-            console.log("now on row " + j)
             currTile=new Tile([i,j], null,0)
             tiles[count]=currTile
             count++
@@ -30,15 +47,16 @@ class Board {
     //place player on start tiles
     populateTiles() {
       var player=new Player('player','green',1)
-      var tile=this.getTile(0,0)
+      var tile=this.getTile(6,6)
       this.stealTile(player, tile)
       console.log(tile.getPlayerOnTile())
+      console.log("Player can attack: " + tile.getAttackableTiles())
     }
 
     stealTile(player, tile) {
       tile.setPlayerOnTile(player)
     }
-    
+
     //to get player on tile: getTile.getPlayerOnTile
     //to get value on tile: getTile.getValueOnTile
     getTile(row, column) {
