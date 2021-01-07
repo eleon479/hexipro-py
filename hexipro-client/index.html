@@ -40,7 +40,7 @@
         Stage: <span id="stage">STAGE</span><br>
         Power: <span id="power">0 </span>
     </p>
-    <canvas id="canvas" width="800" height="500"></canvas>
+    <canvas id="canvas" width="1280" height="800"></canvas>
   </div>
   <script>
     var canvas = document.getElementById('canvas');
@@ -72,6 +72,10 @@
         let active = this.active;
         let c = this.c;
         let r = this.r;
+
+        if (!active) {
+          return;
+        }
 
         let drawSize = size - (0.15 * size);
 
@@ -189,33 +193,66 @@
     };
 
     const size = 50;
-    var HexColumns = 3;
-    var HexRows = 3;
+    var HexColumns = 6;
+    var HexRows = 6;
     var HexSetup = [
       [
         { player: 'A', power: 1, active: true },
         { player: null, power: 0, active: true },
-        { player: null, power: 0, active: true }
-      ],
-      [
+        { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true }
       ],
       [
-        { player: 0, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true }
+      ],
+      [
+        { player: null, power: 0, active: false },
+        { player: null, power: 0, active: false },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true }
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true }
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true }
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
         { player: 'B', power: 1, active: true }
       ]
     ];
     let GameTiles = [];
-    createTiles(HexSetup, 3, 3);
+    createTiles(HexSetup, HexColumns, HexRows);
 
 
 
     function animate() {
       //requestAnimationFrame(animate);
-      ctx.clearRect(0, 0, 800, 500);
+      ctx.clearRect(0, 0, 1280, 800);
       GameTiles.forEach(column => {
         column.forEach(tile => {
           tile.draw();
