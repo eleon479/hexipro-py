@@ -32,15 +32,13 @@
 </head>
 
 <body>
-  <header>
-    <h1>Hexipro</h1>
-    <hr class="rainbow-divider">
-  </header>
+  <h1>Hexipro</h1>
+  <hr class="rainbow-divider">
   <div id="hexipro">
     <p>
         Player: <span id="player">PLAYER</span><br>
         Stage: <span id="stage">STAGE</span><br>
-        Power: <span id="power">0</span>
+        Power: <span id="power">0 </span>
     </p>
     <canvas id="canvas" width="800" height="500"></canvas>
   </div>
@@ -93,11 +91,11 @@
         let playerFillColor = palette.background;
 
         if (player === 'A') {
-          playerLineColor = palette.blue;
-          playerFillColor = palette.blue;
+          playerLineColor = palette.light_teal;
+          playerFillColor = palette.light_teal;
         } else if (player === 'B') {
-          playerLineColor = palette.violet;
-          playerFillColor = palette.violet;
+          playerLineColor = palette.dark_teal;
+          playerFillColor = palette.dark_teal;
         }
 
         canvas.addEventListener('mousemove', function (event) {
@@ -180,10 +178,14 @@
 
     let palette = {
       background: '#0d0d0d',
-      blue: '#66BFFF',
+      blue: '#29C2DE',
       green: '#26C99E',
       indigo: '#CC78FA',
-      violet: '#F553BF'
+      violet: '#C724B1',
+      dark_teal: '#005151',
+      light_teal: '#30CEBB',
+      white: '#FFFFFF',
+      dark_gray: '#53565A'
     };
 
     const size = 50;
