@@ -38,17 +38,19 @@ class Server:
         if (parts[0] == "allocate"):
             messages = allocate(parts[1], int(parts[2]), int(parts[3]))
             for message in messages:
-                send_message1(message)
+                send_message(message)
         elif (parts[0] == "move"):
             messages = move(parts[1], int(parts[2]), int(parts[3]), int(parts[4]), int(parts[5]))
             for message in messages:
-                send_message1(message)
+                send_message(message)
             
 
 
-    def send_message1(message):
+    def send_message(message):
         with connection1:
             connection1.sendmsg(message)
+        with connection2:
+            connection2.sendmsg(message)
 
 
     def connect1(self):
@@ -65,15 +67,11 @@ class Server:
         if (parts[0] == "allocate"):
             messages = allocate(parts[1], int(parts[2]), int(parts[3]))
             for message in messages:
-                send_message2(message)
+                send_message(message)
         elif (parts[0] == "move"):
             messages = move(parts[1], int(parts[2]), int(parts[3]), int(parts[4]), int(parts[5]))
             for message in messages:
-                send_message2(message)
-
-    def send_message2(message):
-        with connection2:
-            connection2.sendmsg(message)
+                send_message(message)
 
 
     def connect2(self):
