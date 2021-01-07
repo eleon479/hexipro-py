@@ -46,6 +46,10 @@
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
 
+    // Server action dispatchers
+
+    // Game Tile object to handle rendering and
+    // listen for clicks
     class HexagonTile {
 
       colorOverride = null;
@@ -102,21 +106,24 @@
           playerFillColor = palette.violet;
         }
 
-        canvas.addEventListener('mousemove', function (event) {
-          if (ctx.isPointInPath(hexagon, event.offsetX, event.offsetY)) {
-            console.log('point is in path of (' + c + ', ' + r + ')');
-          }
-        });
+        // canvas.addEventListener('mousemove', function (event) {
+        //   if (ctx.isPointInPath(hexagon, event.offsetX, event.offsetY)) {
+        //     console.log('point is in path of (' + c + ', ' + r + ')');
+        //   }
+        // });
 
         canvas.addEventListener('click', function (event) {
           if (ctx.isPointInPath(hexagon, event.offsetX, event.offsetY)) {
             GameTiles[c][r].colorOverride = 'white;'
             GameTiles[c][r].draw();
             console.warn('POINT CLICKED');
+
+            // pass this event on to be handled by client game logic
+            // (then passed onto server if event is valid)
+
+            // @TODO validateTileClick(c, r);
           }
         });
-
-        console.log(this.colorOverride);
 
         // player fill
         ctx.fillStyle = this.colorOverride ? this.colorOverride : playerFillColor;
@@ -136,7 +143,6 @@
 
         // power text
         let fontStyle = `${Math.floor(drawSize / 3)}px sans-serif`;
-        console.log(fontStyle);
         ctx.font = fontStyle;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -164,22 +170,6 @@
       stage: 'attack'
     };
 
-    let mouse = {
-      x: undefined,
-      y: undefined
-    };
-
-    window.addEventListener('mousemove', function (e) {
-      mouse.x = event.x;
-      mouse.y = event.y;
-    });
-
-    canvas.addEventListener('mousemove', function (event) {
-      if (event.region) {
-        alert('grabbie!');
-      }
-    });
-
     let palette = {
       background: '#0d0d0d',
       blue: '#66BFFF',
@@ -189,16 +179,17 @@
     };
 
     const size = 50;
-    var HexColumns = 6;
-    var HexRows = 6;
+    var HexColumns = 12;
+    var HexRows = 7;
     var HexSetup = [
       [
-        { player: 'A', power: 1, active: true },
+        { player: 'A', power: 2, active: true },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
-        { player: null, power: 0, active: true }
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
       ],
       [
         { player: null, power: 0, active: true },
@@ -206,15 +197,8 @@
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
-        { player: null, power: 0, active: true }
-      ],
-      [
-        { player: null, power: 0, active: false },
-        { player: null, power: 0, active: false },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
-        { player: null, power: 0, active: true },
-        { player: null, power: 0, active: true }
       ],
       [
         { player: null, power: 0, active: true },
@@ -222,7 +206,8 @@
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
-        { player: null, power: 0, active: true }
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
       ],
       [
         { player: null, power: 0, active: true },
@@ -230,7 +215,8 @@
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
-        { player: null, power: 0, active: true }
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
       ],
       [
         { player: null, power: 0, active: true },
@@ -238,7 +224,71 @@
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
         { player: null, power: 0, active: true },
-        { player: 'B', power: 1, active: true }
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: 'B', power: 2, active: true }
       ]
     ];
     let GameTiles = [];
