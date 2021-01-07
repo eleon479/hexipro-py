@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="game.css">
+
+    </head>
+    <body>
+        <h1>Hexipro</h1>
+        <hr>
+        <div id="hexipro">
+            <p>
+                Player: <span id="player">PLAYER</span>
+                Stage: <span id="stage">STAGE</span>
+                Power: <span id="power">0</span>
+            </p>
+            <canvas id="canvas" width="800" height="500"></canvas>
+            <script>
+                var canvas = document.getElementById('canvas');
+                var ctx = canvas.getContext('2d');
+
+                function animate() {
+                    ctx.clearRect(0, 0, 800, 500);
+
+                    // iterate through tilemap and call their draw functions?
+                }
+
+                function generateTiles() {
+                    
+                }
+            </script>
+        </div>
+    </body>
+</html>
