@@ -46,7 +46,7 @@ class Server:
             connection1.sendmsg(message)
 
 
-    def connect1():
+    def connect1(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((HOST, PLAYER1_PORT))
             s.listen()
