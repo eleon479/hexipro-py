@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-#from players.views import allocate
+from players.views import allocate
 
 
 
@@ -31,13 +31,18 @@ PLAYER2_PORT = 65442        # Port to listen on (non-privileged ports are > 1023
 
 class Server:
     connection1 = 0
+    connection2 = 0
+
     def parse1(data):
-        print(data)
-        self.send_message1(data)
-        """ parts = data.split()
+        parts = data.split()
         if (parts[0] == "allocate"):
-            allocate(parts[1], int(parts[2], int(parts[3])))
-        elif (parts[0] == "move"): """
+            messages = allocate(parts[1], int(parts[2]), int(parts[3]))
+            for message in messages:
+                send_message1(message)
+        elif (parts[0] == "move"):
+            messages = move(parts[1], int(parts[2]), int(parts[3]), int(parts[4]), int(parts[5]))
+            for message in messages:
+                send_message1(message)
             
 
 
@@ -55,25 +60,30 @@ class Server:
                 data = self.connection1.recv(1024)
                 self.parse1(data)
 
-    """ def parse2(data) {
-        print(data)
+    def parse2(data):
         parts = data.split()
         if (parts[0] == "allocate"):
-            allocate(parts[1], int(parts[2], int(parts[3])))
+            messages = allocate(parts[1], int(parts[2]), int(parts[3]))
+            for message in messages:
+                send_message2(message)
+        elif (parts[0] == "move"):
+            messages = move(parts[1], int(parts[2]), int(parts[3]), int(parts[4]), int(parts[5]))
+            for message in messages:
+                send_message2(message)
 
     def send_message2(message):
-        with conn:
-            conn.sendmsg(message)
+        with connection2:
+            connection2.sendmsg(message)
 
 
-    def connect2():
+    def connect2(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((HOST, PLAYER2_PORT))
             s.listen()
-            connection, address = s.accept()
+            self.connection2, address = s.accept()
             while True:
-                data = connection.recv(1024)
-                parse1(data) """
+                data = self.connection2.recv(1024)
+                self.parse2(data)
 
                 
             
@@ -81,4 +91,5 @@ class Server:
 
 server = Server()
 server.connect1()
+server.connect2()
             
