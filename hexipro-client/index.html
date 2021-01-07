@@ -40,13 +40,11 @@
         Stage: <span id="stage">STAGE</span><br>
         Power: <span id="power">0 </span>
     </p>
-    <canvas id="canvas" width="1280" height="800"></canvas>
+    <canvas id="canvas" width="1000" height="700"></canvas>
   </div>
   <script>
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
-
-    // Server action dispatchers
 
     // Game Tile object to handle rendering and
     // listen for clicks
@@ -167,7 +165,10 @@
       currentPlayer: 'A',
       nextPlayer: 'B',
       selectedTile: null,
-      stage: 'attack'
+      stage: 'attack',
+      // connection flags
+      pendingConfirmation: false,
+      waitingForTurn: false
     };
 
     let palette = {
@@ -298,8 +299,6 @@
     let GameTiles = [];
     createTiles(HexSetup, HexColumns, HexRows);
 
-
-
     function animate() {
       //requestAnimationFrame(animate);
       ctx.clearRect(0, 0, 1280, 800);
@@ -344,7 +343,38 @@
       }
     }
 
-    // ... 
+    // Set up WebSocket connection to game server
+    var url = 'wss://exampleurl.com/socketserver';
+    var protocol = 'exampleProtocol';
+    var socket = new WebSocket(url, protocol);
+
+    // Listen for events from the game server
+    socket.onmessage = function(event) {
+      console.log(event.data);
+
+      /*
+        handle incoming event:
+        - update local game state
+        - render the board - animate();
+        - ...?
+      */
+    }
+
+    // Send an event to the game server
+    function sendAction(c, r, type) {
+      // let the local game state know it should wait
+      // for this action to be received/validated 
+      // by the server
+
+      
+      var msg = {
+        column: c,
+        row: r,
+        action: type
+      };
+
+      socket.send(JSON.stringify(msg));
+    }
 
   </script>
 </body>
