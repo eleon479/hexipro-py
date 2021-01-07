@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=hexipro
+POSTGRES_USER=eeUPksRtjarymVjPbJVRjoUicGLlKtDk
+POSTGRES_PASSWORD=WRfadct19I4Xyx4L6wTGeRYQhCG8TtQhJUdvNDvHNHaqLxpj1QsscXHjzgdMH5Yy
