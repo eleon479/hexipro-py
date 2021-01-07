@@ -1,7 +1,3 @@
-function showMessage(message) {
-    document.getElementById('message').textContent=message
-   
-}
 
 class Tile {
     constructor(location, playerOnTile, valueOnTile /*,isActive*/ ) {
@@ -19,6 +15,9 @@ class Tile {
         this.valueOnTile=newVal
     }
 
+    getLocation () {
+        return this.location
+    }
     /*
     setIsActive (active) {
         //active=true -> tile is in play
