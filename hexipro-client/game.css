@@ -1,0 +1,65 @@
+:root {
+    --hexipro-background: #1d1d1d;
+    --hexipro-green: #26C99E;
+    --hexipro-blue: #66BFFF;
+    --hexipro-indigo: #CC78FA;
+    --hexipro-violet: #F553BF;
+  
+    --rainbow-gradient: linear-gradient(
+        to right,
+        var(--hexipro-green),
+        var(--hexipro-blue),
+        var(--hexipro-indigo),
+        var(--hexipro-violet)
+    );
+  
+    --rainbow-gradient-reversed: linear-gradient(
+        to left,
+        var(--hexipro-green),
+        var(--hexipro-blue),
+        var(--hexipro-indigo),
+        var(--hexipro-violet)
+    );
+    
+  }
+  
+  html {
+    background-color: var(--hexipro-background);
+  
+  }
+  
+  html, body {
+    color: #eaeaea;
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+    
+    margin: 15px 10%;
+  }
+  
+  h1 {
+    background: var(--rainbow-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* width:fit-content; */
+  }
+  
+  h2 {
+    color: #b5e853;
+  }
+  
+  h3 {
+    color: #b5e853;
+  }
+  
+  hr.rainbow-divider {
+    border: none;
+    height: 3px;
+    background-image: linear-gradient(
+        to right,
+        var(--hexipro-green),
+        var(--hexipro-blue),
+        var(--hexipro-indigo),
+        var(--hexipro-violet)
+    );
+  }

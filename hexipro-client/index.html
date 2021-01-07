@@ -1,33 +1,261 @@
 <html>
-    <head>
-        <title></title>
-        <link rel="stylesheet" href="game.css">
 
-    </head>
-    <body>
-        <h1>Hexipro</h1>
-        <hr>
-        <div id="hexipro">
-            <p>
-                Player: <span id="player">PLAYER</span>
-                Stage: <span id="stage">STAGE</span>
-                Power: <span id="power">0</span>
-            </p>
-            <canvas id="canvas" width="800" height="500"></canvas>
-            <script>
-                var canvas = document.getElementById('canvas');
-                var ctx = canvas.getContext('2d');
+<head>
+  <title>Hexipro</title>
+  <link rel="stylesheet" href="game.css">
+  <style>
 
-                function animate() {
-                    ctx.clearRect(0, 0, 800, 500);
+    h1 {
+      margin-bottom: 0;
+      /* padding: 0;
+      margin: 0; */
+    }
 
-                    // iterate through tilemap and call their draw functions?
-                }
+    #canvas {
+      background-color: #0d0d0d;
+      border: 0;
+      border-radius: 10px;
+    }
 
-                function generateTiles() {
-                    
-                }
-            </script>
-        </div>
-    </body>
+    #player {
+      color: var(--hexipro-green);
+    }
+
+    #stage {
+      color: var(--hexipro-green);
+    }
+
+    #power {
+      color: var(--hexipro-violet)
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Hexipro</h1>
+  <hr class="rainbow-divider">
+  <div id="hexipro">
+    <p>
+      Player: <span id="player">PLAYER</span>
+      Stage: <span id="stage">STAGE</span>
+      Power: <span id="power">0</span>
+    </p>
+    <canvas id="canvas" width="800" height="500"></canvas>
+  </div>
+  <script>
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    class HexagonTile {
+
+      colorOverride = null;
+
+      constructor(c, r, cx, cy, size, player, power, active) {
+        this.c = c;
+        this.r = r;
+        this.cx = cx;
+        this.cy = cy;
+        this.size = size;
+        this.player = player;
+        this.power = power;
+        this.active = active;
+
+        // this.draw();
+      }
+
+      draw = () => {
+        let size = this.size;
+        let cx = this.cx;
+        let cy = this.cy;
+        let power = this.power;
+        let player = this.player;
+        let active = this.active;
+        let c = this.c;
+        let r = this.r;
+
+        let drawSize = size - (0.15 * size);
+
+        const hexagon = new Path2D();
+        ctx.beginPath();
+        hexagon.moveTo(cx + drawSize * Math.cos(0), cy + drawSize * Math.sin(0));
+
+        for (let i = 1; i <= 6; i += 1) {
+          hexagon.lineTo(cx + drawSize * Math.cos(i * Math.PI / 3), cy + drawSize * Math.sin(i * Math.PI / 3));
+        }
+
+        // end path
+        ctx.closePath();
+
+        // let playerLineColor = palette.green;
+        let playerLineColor = 'grey';
+        let playerFillColor = palette.background;
+
+        if (player === 'A') {
+          playerLineColor = palette.blue;
+          playerFillColor = palette.blue;
+        } else if (player === 'B') {
+          playerLineColor = palette.violet;
+          playerFillColor = palette.violet;
+        }
+
+        canvas.addEventListener('mousemove', function (event) {
+          if (ctx.isPointInPath(hexagon, event.offsetX, event.offsetY)) {
+            console.log('point is in path of (' + c + ', ' + r + ')');
+          }
+        });
+
+        canvas.addEventListener('click', function (event) {
+          if (ctx.isPointInPath(hexagon, event.offsetX, event.offsetY)) {
+            GameTiles[c][r].colorOverride = 'white;'
+            GameTiles[c][r].draw();
+            console.warn('POINT CLICKED');
+          }
+        });
+
+        console.log(this.colorOverride);
+
+        // player fill
+        ctx.fillStyle = this.colorOverride ? this.colorOverride : playerFillColor;
+        ctx.fill(hexagon);
+
+        //canvas.addHitRegion({ id: `tile-col-${c}-row-${r}` });
+
+        // dark gap/outline
+        ctx.strokeStyle = palette.background;
+        ctx.lineWidth = 15;
+        ctx.stroke(hexagon);
+
+        // player outline
+        ctx.strokeStyle = playerLineColor;
+        ctx.lineWidth = 3;
+        ctx.stroke(hexagon);
+
+        // power text
+        let fontStyle = `${Math.floor(drawSize / 3)}px sans-serif`;
+        console.log(fontStyle);
+        ctx.font = fontStyle;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = 'white';
+        // ctx.fillText(`(${c},${r}) ${power}`, cx, cy, drawSize);
+        ctx.fillText(`${power}`, cx, cy, drawSize);
+
+        this.update();
+      };
+
+      update = () => {
+
+      };
+    };
+
+    const stages = [
+      'attack',
+      'allocate'
+    ];
+
+    let game = {
+      currentPlayer: 'A',
+      nextPlayer: 'B',
+      selectedTile: null,
+      stage: 'attack'
+    };
+
+    let mouse = {
+      x: undefined,
+      y: undefined
+    };
+
+    window.addEventListener('mousemove', function (e) {
+      mouse.x = event.x;
+      mouse.y = event.y;
+    });
+
+    canvas.addEventListener('mousemove', function (event) {
+      if (event.region) {
+        alert('grabbie!');
+      }
+    });
+
+    let palette = {
+      background: '#0d0d0d',
+      blue: '#66BFFF',
+      green: '#26C99E',
+      indigo: '#CC78FA',
+      violet: '#F553BF'
+    };
+
+    const size = 50;
+    var HexColumns = 3;
+    var HexRows = 3;
+    var HexSetup = [
+      [
+        { player: 'A', power: 1, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true }
+      ],
+      [
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: null, power: 0, active: true }
+      ],
+      [
+        { player: 0, power: 0, active: true },
+        { player: null, power: 0, active: true },
+        { player: 'B', power: 1, active: true }
+      ]
+    ];
+    let GameTiles = [];
+    createTiles(HexSetup, 3, 3);
+
+
+
+    function animate() {
+      //requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, 800, 500);
+      GameTiles.forEach(column => {
+        column.forEach(tile => {
+          tile.draw();
+        });
+      });
+    }
+
+    animate();
+
+    function getCenter(col, row) {
+
+      let x = size + col * (size + size / 2);
+      let y = size + row * (size * Math.sqrt(3)) + ((col % 2) * (size * (Math.sqrt(3) / 2)));
+
+      return { x, y }
+    }
+
+    function createTiles(tileSetup, columns, rows) {
+      // initialize tiles with coordinates
+      for (let col = 0; col < columns; col++) {
+        GameTiles.push([]);
+        for (let row = 0; row < rows; row++) {
+          let center = getCenter(col, row);
+          let setup = tileSetup[col][row];
+
+          let player = setup.player;
+          let power = setup.power;
+          let active = setup.active;
+
+          let newTile = new HexagonTile(
+            col, row,
+            center.x, center.y, size,
+            player, power,
+            active
+          );
+
+          GameTiles[col].push(newTile);
+        }
+      }
+    }
+
+    // ... 
+
+  </script>
+</body>
+
 </html>
