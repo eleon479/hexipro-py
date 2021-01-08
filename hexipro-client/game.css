@@ -64,10 +64,6 @@
     );
   }
 
-  #controls {
-    text-align: center;
-  }
-
   .control {
     margin: 10px;
     font-family: "Arial Black", Gadget, sans-serif;

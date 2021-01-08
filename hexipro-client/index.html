@@ -11,6 +11,10 @@
       margin: 0; */
     }
 
+    #hexipro {
+      text-align: center;
+    }
+
     #canvas {
       background-color: #0d0d0d;
       border: 0;
@@ -28,6 +32,23 @@
     #power {
       color: var(--hexipro-violet)
     }
+
+    #info {
+
+    }
+
+    #info-left {
+      float: left;
+      text-align: left;
+    }
+
+    #info-right {
+      float: right;
+    }
+
+    #controls {
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -35,16 +56,21 @@
   <h1>Hexipro</h1>
   <hr class="rainbow-divider">
   <div id="hexipro">
-    <p>
-        Player: <span id="player">PLAYER</span><br>
-        Stage: <span id="stage">STAGE</span><br>
-        Power: <span id="power">POWER</span>
-    </p>
-    <canvas id="canvas" width="1000" height="700"></canvas>
-    <div id="controls">
-      <button class="end-attack control" id="endAttack">End Attack</button>
-      <button class="end-turn control" id="endTurn">End Turn</button>
+    <div id="info-left">
+      <p>
+          Player: <span id="player">PLAYER</span><br>
+          Stage: <span id="stage">STAGE</span><br>
+          Power: <span id="power">POWER</span>
+      </p>
     </div>
+    <div id="info-right">
+      <div id="controls">
+        <button class="end-attack control" id="endAttack">End Attack</button>
+        <button class="end-turn control" id="endTurn">End Turn</button>
+      </div>
+    </div>
+    <canvas id="canvas" width="1000" height="700"></canvas>
+    
   </div>
   <script src="jquery-3.5.1.min.js"></script>
   <script src="./map.js"></script>
