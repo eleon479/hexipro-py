@@ -195,7 +195,8 @@
           // allocate selection
           if (this.availablePower > 0) {
             this.board.gameTiles[col][row].power += 1;
-            this.availablePower -= 1;
+
+            this.updateAvailablePower(this.availablePower - 1);
 
             if (this.availablePower === 0) {
               this.endTurn();
